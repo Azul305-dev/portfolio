@@ -42,9 +42,6 @@
   .hero-desc { max-width: 340px; font-size: 0.95rem; line-height: 1.8; color: #555; opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; }
   .hero-right { position: relative; overflow: hidden; background: var(--ink); opacity: 0; animation: fadeIn 1s ease 0.9s forwards; }
 
-  /* ============================================================
-     HERO IMAGE — replace images/hero.jpg with your own file
-     ============================================================ */
   .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; display: block; }
 
   .hero-img-label { position: absolute; bottom: 32px; left: 32px; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
@@ -99,10 +96,6 @@
   .work-item:nth-child(7) .work-item-inner { padding-bottom: 85%; }
   .work-item:nth-child(8) .work-item-inner { padding-bottom: 45%; }
 
-  /* ============================================================
-     WORK IMAGES — src points to images/ folder
-     Replace each src with your actual filenames
-     ============================================================ */
   .work-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: block; }
   .work-item:hover .work-img { transform: scale(1.05); }
 
@@ -123,9 +116,6 @@
   .brand-section-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
   .brand-section-label::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
 
-  /* ============================================================
-     BRAND PAGES GRID — images from brand/ folder
-     ============================================================ */
   .brand-pages-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
   .brand-pages-grid::-webkit-scrollbar { height: 4px; }
   .brand-pages-grid::-webkit-scrollbar-track { background: transparent; }
@@ -201,9 +191,7 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
-<!-- ===================== NAV ===================== -->
 <nav>
-  <!-- EDIT: Change "Your Name" to your name -->
   <a href="#" class="nav-logo">Azul Martin</a>
   <div class="nav-links">
     <a href="#work">Work</a>
@@ -213,44 +201,32 @@
   </div>
 </nav>
 
-<!-- ===================== HERO ===================== -->
 <section id="hero">
   <div class="hero-left">
-    <!-- EDIT: Your tagline -->
     <p class="hero-eyebrow">Graphic Designer &amp; Illustrator</p>
     <h1 class="hero-title">
       Creative<br>
       <em>by</em><br>
       Design
     </h1>
-    <!-- EDIT: Your short bio -->
     <p class="hero-desc">
       Crafting visual identities, brand systems, and illustrations, taking care of details and vailable for projects.
     </p>
   </div>
   <div class="hero-right">
-    <!--
-      HERO IMAGE
-      Replace "images/hero.jpg" with your featured image filename.
-      Put the file in the images/ folder.
-    -->
+
     <img
       src="images/face.jpeg"
       alt="Featured work"
       class="hero-img"
       onerror="this.parentElement.style.background='var(--ink)'"
     >
-    <!-- <div class="hero-img-label">Featured Work</div> -->
   </div>
-  <!-- <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    Scroll
-  </div> -->
+
 </section>
 
-<!-- ===================== MARQUEE ===================== -->
+
 <div class="marquee-wrap">
-  <!-- EDIT: Change the services listed here to match your own -->
   <div class="marquee-track">
     <span class="marquee-item">Brand Identity</span>
     <span class="marquee-item accent">✦</span>
@@ -279,24 +255,19 @@
     <span class="marquee-item accent">✦</span>
   </div>
 </div>
-
-<!-- ===================== ABOUT ===================== -->
 <section id="about">
   <div class="about-left reveal">
     <div class="section-label">About</div>
     <div class="about-number">01</div>
   </div>
   <div class="about-right reveal reveal-delay-1">
-    <!-- EDIT: Your headline -->
     <h2 class="about-headline">
       Design that <em>shows</em><br>your ideas.
     </h2>
     <div class="about-body">
-      <!-- EDIT: Your bio paragraphs -->
       <p>I'm a graphic designer with a passion for building brands that stand out the rest. My work lives at the intersection of personality and aesthetics — where great ideas come to life.</p>
       <p>With experience across identity, packaging, and illustration, I bring a creative approach to design — ensuring every project is both visually compelling and functional.</p>
     </div>
-    <!-- EDIT: Your skills — add or remove tags as needed -->
     <div class="skills-row">
       <span class="skill-tag">Brand Identity</span>
       <span class="skill-tag">Logo Design</span>
@@ -308,23 +279,12 @@
     </div>
   </div>
 </section>
-
-<!-- ===================== WORK ===================== -->
 <section id="work">
   <div class="work-header">
     <h2 class="work-title reveal">Selected<br><em>Work</em></h2>
     <div class="work-count reveal">8 Projects</div>
   </div>
 
-  <!--
-    ============================================================
-    WORK GALLERY
-    For each work-item:
-      1. Replace src="images/work-1.jpg" with your image filename
-      2. Edit the title and category in the overlay div
-    Put all images in the images/ folder next to index.html
-    ============================================================
-  -->
   <div class="gallery-grid">
 
     <div class="work-item reveal">
@@ -410,11 +370,10 @@
   </div>
 </section>
 
-<!-- ===================== BRAND ===================== -->
 <section id="brand">
   <div class="brand-header reveal">
     <div>
-      <!-- EDIT: Change this to the name of the brand you're showing -->
+
       <h2 class="brand-title">Brand<br><em>Design</em><br>Files</h2>
     </div>
     <p class="brand-subtitle">A complete brand identity system — from logo and colour palette to typography and applications.</p>
@@ -422,31 +381,15 @@
 
   <div class="brand-section-label reveal">Brand Guidelines</div>
 
-  <!--
-    ============================================================
-    BRAND PAGES
-    Add or remove <div class="brand-page"> blocks to match
-    how many pages your PDF export has.
-
-    File naming convention: brand/page-01.jpg, brand/page-02.jpg ...
-    Put all brand images in the brand/ folder next to index.html.
-
-    To convert PDF to images:
-      - Use smallpdf.com, Adobe Acrobat, or pdf2jpg.net
-      - Export each page as JPG at 150–200 dpi
-      - Name them page-01.jpg, page-02.jpg, etc.
-    ============================================================
-  -->
   <div class="brand-pages-grid reveal" id="brand-pages-grid"></div>
 </section>
 
-<!-- ===================== CONTACT ===================== -->
 <section id="contact">
   <div class="contact-left reveal">
     <div class="section-label">Contact</div>
     <h2 class="contact-title">Let's work together.</h2>
     <div class="contact-info">
-      <!-- EDIT: Your contact details -->
+
       <div class="contact-line">
         <span class="contact-line-label">Email</span>
         <span>azulmartin935@gmail.com</span>
@@ -457,7 +400,6 @@
       </div>
       <div class="contact-line">
         <span class="contact-line-label">Instagram</span>
-        <!-- EDIT: Your Instagram link -->
         <a href="https://instagram.com/azul.bluestock" style="color:inherit; text-decoration:none;">@azul.blestock</a>
       </div>
     
@@ -490,15 +432,13 @@
   </div>
 </section>
 
-<!-- ===================== FOOTER ===================== -->
 <footer>
-  <!-- EDIT: Your name and links -->
   <a href="#" class="footer-logo">Azul Martin</a>
 
 </footer>
 
 <script>
-  // Generate brand pages (1-50)
+
   const brandGrid = document.getElementById('brand-pages-grid');
   const totalPages = 50;
   const imagePath = 'images/villagi';
@@ -511,7 +451,7 @@
       </div>`;
   }
 
-  // Cursor
+
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
   let mx = 0, my = 0, rx = 0, ry = 0;
@@ -528,12 +468,11 @@
     requestAnimationFrame(animateRing);
   })();
 
-  // Scroll reveal
+
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  // Copy email to clipboard
   document.getElementById('copy-email-btn').addEventListener('click', function() {
     const email = 'azulmartin935@gmail.com';
     navigator.clipboard.writeText(email).then(function() {
