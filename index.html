@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Creative Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Poiret+One&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5FBFD;
+    --ink: #0D0D0D;
+    --rust: #4A398D;
+    --gold: #D39BC6;
+    --mist: #DAF1F8;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; cursor: none; overflow-x: hidden; }
+
+  /* CURSOR */
+  #cursor { width: 12px; height: 12px; background: var(--rust); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: transform 0.15s ease, background 0.2s ease; transform: translate(-50%,-50%); }
+  #cursor-ring { width: 36px; height: 36px; border: 1px solid var(--rust); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all 0.25s ease; opacity: 0.5; }
+  body:has(a:hover) #cursor, body:has(.work-item:hover) #cursor { transform: translate(-50%,-50%) scale(2.5); background: var(--gold); }
+  body:has(a:hover) #cursor-ring, body:has(.work-item:hover) #cursor-ring { transform: translate(-50%,-50%) scale(1.5); opacity: 0.2; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; background-color: var(--cream); border-bottom: var(--ink) solid 1px ; align-items: center; padding: 28px 48px; }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.15em; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); text-decoration: none; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--rust); transition: width 0.3s ease; }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+  .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 120px 48px 80px; }
+  .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+  .hero-title { font-family: 'Poiret One', serif; font-size: clamp(4rem, 7vw, 8rem); font-weight: 300; line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s ease 0.5s forwards; }
+  .hero-title em { font-style: italic; color: var(--rust); }
+  .hero-desc { max-width: 340px; font-size: 0.95rem; line-height: 1.8; color: #555; opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; }
+  .hero-right { position: relative; overflow: hidden; background: var(--ink); opacity: 0; animation: fadeIn 1s ease 0.9s forwards; }
+
+  /* ============================================================
+     HERO IMAGE — replace images/hero.jpg with your own file
+     ============================================================ */
+  .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; display: block; }
+
+  .hero-img-label { position: absolute; bottom: 32px; left: 32px; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .scroll-hint { position: absolute; bottom: 48px; right: 48px; display: flex; align-items: center; gap: 12px; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #999; opacity: 0; animation: fadeUp 0.8s ease 1.2s forwards; }
+  .scroll-line { width: 48px; height: 1px; background: var(--gold); position: relative; overflow: hidden; }
+  .scroll-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--ink); animation: scanline 2s ease infinite; }
+
+  /* MARQUEE */
+  .marquee-wrap { overflow: hidden; background: var(--ink); padding: 18px 0; }
+  .marquee-track { display: flex; white-space: nowrap; animation: marquee 18s linear infinite; }
+  .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 0.3em; color: rgba(255,255,255,0.25); padding: 0 32px; flex-shrink: 0; }
+  .marquee-item.accent { color: var(--rust); }
+
+  /* ABOUT */
+  #about { display: grid; grid-template-columns: 1fr 2fr; gap: 0; padding: 120px 48px; border-top: 1px solid rgba(13,13,13,0.1); }
+  .about-left { padding-right: 64px; }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 48px; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: ''; width: 24px; height: 1px; background: var(--rust); }
+  .about-number { font-family: 'Poiret One', serif; font-size: 8rem; font-weight: 300; line-height: 1; color: var(--mist); margin-bottom: 16px; }
+  .about-right { padding-left: 64px; border-left: 1px solid var(--mist); }
+  .about-headline { font-family: 'Poiret One', serif; font-size: clamp(2rem, 3.5vw, 3.5rem); font-weight: 300; line-height: 1.15; margin-bottom: 32px; letter-spacing: -0.01em; }
+  .about-headline em { font-style: italic; }
+  .about-body { font-size: 0.95rem; line-height: 1.9; color: #555; max-width: 560px; margin-bottom: 48px; }
+  .about-body p + p { margin-top: 16px; }
+  .skills-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .skill-tag { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; border: 1px solid rgba(13,13,13,0.2); color: #555; transition: all 0.25s; }
+  .skill-tag:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  /* WORK */
+  #work { padding: 0 48px 120px; }
+  .work-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 80px 0 60px; border-top: 1px solid rgba(13,13,13,0.1); }
+  .work-title { font-family: 'Poiret One', serif; font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 300; letter-spacing: -0.02em; line-height: 1; }
+  .work-title em { font-style: italic; color: var(--rust); }
+  .work-count { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: #999; padding-bottom: 8px; }
+
+  /* GALLERY */
+  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+
+  .work-item { position: relative; overflow: hidden; background: var(--mist); }
+  /* Asymmetric layout — 8 items */
+  .work-item:nth-child(1) { grid-column: span 7; }
+  .work-item:nth-child(2) { grid-column: span 5; }
+  .work-item:nth-child(3) { grid-column: span 4; }
+  .work-item:nth-child(4) { grid-column: span 4; }
+  .work-item:nth-child(5) { grid-column: span 4; }
+  .work-item:nth-child(6) { grid-column: span 5; }
+  .work-item:nth-child(7) { grid-column: span 7; }
+  .work-item:nth-child(8) { grid-column: span 12; }
+
+  .work-item-inner { position: relative; width: 100%; height: 100%; padding-bottom: 70%; overflow: hidden; }
+  .work-item:nth-child(1) .work-item-inner,
+  .work-item:nth-child(7) .work-item-inner { padding-bottom: 85%; }
+  .work-item:nth-child(8) .work-item-inner { padding-bottom: 45%; }
+
+  /* ============================================================
+     WORK IMAGES — src points to images/ folder
+     Replace each src with your actual filenames
+     ============================================================ */
+  .work-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: block; }
+  .work-item:hover .work-img { transform: scale(1.05); }
+
+  .work-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.85) 0%, transparent 55%); opacity: 0; transition: opacity 0.4s ease; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; }
+  .work-item:hover .work-overlay { opacity: 1; }
+  .work-overlay-title { font-family: 'Poiret One', serif; font-size: 1.5rem; font-weight: 300; color: white; margin-bottom: 4px; transform: translateY(8px); transition: transform 0.4s ease; }
+  .work-item:hover .work-overlay-title { transform: translateY(0); }
+  .work-overlay-cat { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); transform: translateY(8px); transition: transform 0.4s ease 0.05s; }
+  .work-item:hover .work-overlay-cat { transform: translateY(0); }
+
+  /* BRAND */
+  #brand { padding: 80px 48px 120px; background: var(--ink); color: var(--cream); position: relative; overflow: hidden; }
+  #brand::before { content: 'BRAND'; position: absolute; top: -20px; right: -20px; font-family: 'Bebas Neue', sans-serif; font-size: 20rem; color: rgba(255,255,255,0.02); pointer-events: none; line-height: 1; }
+  .brand-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 64px; }
+  .brand-title { font-family: 'Poiret One', serif; font-size: clamp(3rem, 5vw, 5rem); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; }
+  .brand-title em { font-style: italic; color: var(--gold); }
+  .brand-subtitle { font-size: 0.85rem; line-height: 1.8; color: rgba(255,255,255,0.4); max-width: 280px; margin-top: 8px; }
+  .brand-section-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
+  .brand-section-label::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+
+  /* ============================================================
+     BRAND PAGES GRID — images from brand/ folder
+     ============================================================ */
+  .brand-pages-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
+  .brand-pages-grid::-webkit-scrollbar { height: 4px; }
+  .brand-pages-grid::-webkit-scrollbar-track { background: transparent; }
+  .brand-pages-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+  .brand-page { position: relative; background: rgba(255,255,255,0.04); overflow: hidden; aspect-ratio: 29.7/21; flex-shrink: 0; width: 300px; scroll-snap-align: start; }
+  .brand-page img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+  .brand-page:hover img { transform: scale(1.03); }
+  .brand-page-num { position: absolute; bottom: 12px; left: 12px; font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); }
+
+  /* CONTACT */
+  #contact { padding: 120px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; border-top: 1px solid rgba(13,13,13,0.1); }
+  .contact-title { font-family: 'Poiret One', serif; font-size: clamp(3rem, 4.5vw, 5rem); font-weight: 300; line-height: 1; letter-spacing: -0.02em; margin-bottom: 40px; }
+  .contact-title em { font-style: italic; }
+  .contact-info { display: flex; flex-direction: column; gap: 20px; }
+  .contact-line { display: flex; align-items: flex-start; gap: 16px; font-size: 0.9rem; color: #444; }
+  .contact-line-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); width: 64px; flex-shrink: 0; padding-top: 2px; }
+  .contact-right { padding-top: 16px; }
+  .contact-form { display: flex; flex-direction: column; }
+  .form-group { border-bottom: 1px solid rgba(13,13,13,0.12); }
+  .form-group label { display: block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #999; padding: 20px 0 6px; }
+  .form-group input, .form-group textarea { width: 100%; background: transparent; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--ink); padding: 8px 0 20px; resize: none; cursor: none; }
+  .form-group textarea { min-height: 100px; }
+  .form-submit { margin-top: 32px; display: inline-flex; align-items: center; gap: 12px; padding: 18px 40px; background: transparent; border: 1px solid var(--ink); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); cursor: none; transition: all 0.3s ease; }
+  .form-submit:hover { background: var(--ink); color: var(--cream); }
+  .form-submit svg { transition: transform 0.3s; }
+  .form-submit:hover svg { transform: translateX(4px); }
+
+  /* FOOTER */
+  footer { padding: 32px 48px; background: var(--ink); color: rgba(255,255,255,0.3); display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.6); text-decoration: none; }
+  .social-links { display: flex; gap: 24px; }
+  .social-links a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .social-links a:hover { color: var(--gold); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes scanline { 0% { left:-100%; } 100% { left:200%; } }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vw; }
+    .hero-left { padding: 100px 24px 64px; }
+    #about { grid-template-columns: 1fr; padding: 64px 24px; }
+    .about-left { padding-right: 0; margin-bottom: 32px; }
+    .about-right { padding-left: 0; border-left: none; border-top: 1px solid var(--mist); padding-top: 32px; }
+    #work { padding: 0 24px 80px; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .work-item:nth-child(n) { grid-column: span 1; }
+    .work-item-inner, .work-item:nth-child(1) .work-item-inner, .work-item:nth-child(7) .work-item-inner, .work-item:nth-child(8) .work-item-inner { padding-bottom: 80%; }
+    #brand { padding: 64px 24px; }
+    #brand::before { display: none; }
+    .brand-header { flex-direction: column; gap: 16px; }
+    #contact { grid-template-columns: 1fr; padding: 64px 24px; gap: 48px; }
+    footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; }
+    body { cursor: auto; }
+    #cursor, #cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav>
+  <!-- EDIT: Change "Your Name" to your name -->
+  <a href="#" class="nav-logo">Azul Martin</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#brand">Brand</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero">
+  <div class="hero-left">
+    <!-- EDIT: Your tagline -->
+    <p class="hero-eyebrow">Graphic Designer &amp; Illustrator</p>
+    <h1 class="hero-title">
+      Creative<br>
+      <em>by</em><br>
+      Design
+    </h1>
+    <!-- EDIT: Your short bio -->
+    <p class="hero-desc">
+      Crafting visual identities, brand systems, and illustrations, taking care of details and vailable for projects.
+    </p>
+  </div>
+  <div class="hero-right">
+    <!--
+      HERO IMAGE
+      Replace "images/hero.jpg" with your featured image filename.
+      Put the file in the images/ folder.
+    -->
+    <img
+      src="images/face.jpeg"
+      alt="Featured work"
+      class="hero-img"
+      onerror="this.parentElement.style.background='var(--ink)'"
+    >
+    <!-- <div class="hero-img-label">Featured Work</div> -->
+  </div>
+  <!-- <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div> -->
+</section>
+
+<!-- ===================== MARQUEE ===================== -->
+<div class="marquee-wrap">
+  <!-- EDIT: Change the services listed here to match your own -->
+  <div class="marquee-track">
+    <span class="marquee-item">Brand Identity</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Visual Systems</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Editorial Design</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Packaging</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Typography</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Illustration</span>
+    <span class="marquee-item accent">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Brand Identity</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Visual Systems</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Editorial Design</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Packaging</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Typography</span>
+    <span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Illustration</span>
+    <span class="marquee-item accent">✦</span>
+  </div>
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about">
+  <div class="about-left reveal">
+    <div class="section-label">About</div>
+    <div class="about-number">01</div>
+  </div>
+  <div class="about-right reveal reveal-delay-1">
+    <!-- EDIT: Your headline -->
+    <h2 class="about-headline">
+      Design that <em>shows</em><br>your ideas.
+    </h2>
+    <div class="about-body">
+      <!-- EDIT: Your bio paragraphs -->
+      <p>I'm a graphic designer with a passion for building brands that stand out the rest. My work lives at the intersection of personality and aesthetics — where great ideas come to life.</p>
+      <p>With experience across identity, packaging, and illustration, I bring a creative approach to design — ensuring every project is both visually compelling and functional.</p>
+    </div>
+    <!-- EDIT: Your skills — add or remove tags as needed -->
+    <div class="skills-row">
+      <span class="skill-tag">Brand Identity</span>
+      <span class="skill-tag">Logo Design</span>
+      <span class="skill-tag">Print</span>
+      <span class="skill-tag">Packaging</span>
+      <span class="skill-tag">Typography</span>
+      <span class="skill-tag">Illustration</span>
+      <span class="skill-tag">Editorial</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK ===================== -->
+<section id="work">
+  <div class="work-header">
+    <h2 class="work-title reveal">Selected<br><em>Work</em></h2>
+    <div class="work-count reveal">8 Projects</div>
+  </div>
+
+  <!--
+    ============================================================
+    WORK GALLERY
+    For each work-item:
+      1. Replace src="images/work-1.jpg" with your image filename
+      2. Edit the title and category in the overlay div
+    Put all images in the images/ folder next to index.html
+    ============================================================
+  -->
+  <div class="gallery-grid">
+
+    <div class="work-item reveal">
+      <div class="work-item-inner">
+        <img src="images/work-1.png" alt="Project 1" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">Las Ciudades y los Signos 1</div>
+          <div class="work-overlay-cat">Editorial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-item reveal reveal-delay-1">
+      <div class="work-item-inner">
+        <img src="images/work-2.png" alt="Project 2" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">La Muerte Del Cisne Negro</div>
+          <div class="work-overlay-cat">Editorial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-item reveal">
+      <div class="work-item-inner">
+        <img src="images/work-3.jpg" alt="Project 3" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">Cassaro - Sleeve Label</div>
+          <div class="work-overlay-cat">Packaging</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-item reveal reveal-delay-1">
+      <div class="work-item-inner">
+        <img src="images/work-4.jpg" alt="Project 4" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">Hat Muckup</div>
+          <div class="work-overlay-cat">Packaging</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-item reveal reveal-delay-2">
+      <div class="work-item-inner">
+        <img src="images/work-5.jpg" alt="Project 5" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">Vector Skull</div>
+          <div class="work-overlay-cat">Illustration</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-item reveal">
+      <div class="work-item-inner">
+        <img src="images/work-6.jpg" alt="Project 6" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">Instagram Post Model</div>
+          <div class="work-overlay-cat">Brand Identity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-item reveal reveal-delay-1">
+      <div class="work-item-inner">
+        <img src="images/work-7.jpg" alt="Project 7" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">Vector Eye</div>
+          <div class="work-overlay-cat">Illustration</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-item reveal">
+      <div class="work-item-inner">
+        <img src="images/work-8.jpg" alt="Project 8" class="work-img" onerror="this.style.display='none'">
+        <div class="work-overlay">
+          <div class="work-overlay-title">Abstract Handmade Face</div>
+          <div class="work-overlay-cat">Illustration</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== BRAND ===================== -->
+<section id="brand">
+  <div class="brand-header reveal">
+    <div>
+      <!-- EDIT: Change this to the name of the brand you're showing -->
+      <h2 class="brand-title">Brand<br><em>Design</em><br>Files</h2>
+    </div>
+    <p class="brand-subtitle">A complete brand identity system — from logo and colour palette to typography and applications.</p>
+  </div>
+
+  <div class="brand-section-label reveal">Brand Guidelines</div>
+
+  <!--
+    ============================================================
+    BRAND PAGES
+    Add or remove <div class="brand-page"> blocks to match
+    how many pages your PDF export has.
+
+    File naming convention: brand/page-01.jpg, brand/page-02.jpg ...
+    Put all brand images in the brand/ folder next to index.html.
+
+    To convert PDF to images:
+      - Use smallpdf.com, Adobe Acrobat, or pdf2jpg.net
+      - Export each page as JPG at 150–200 dpi
+      - Name them page-01.jpg, page-02.jpg, etc.
+    ============================================================
+  -->
+  <div class="brand-pages-grid reveal" id="brand-pages-grid"></div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <div class="section-label">Contact</div>
+    <h2 class="contact-title">Let's work together.</h2>
+    <div class="contact-info">
+      <!-- EDIT: Your contact details -->
+      <div class="contact-line">
+        <span class="contact-line-label">Email</span>
+        <span>azulmartin935@gmail.com</span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-line-label">Based</span>
+        <span>Cordoba Capital, Argentina</span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-line-label">Instagram</span>
+        <!-- EDIT: Your Instagram link -->
+        <a href="https://instagram.com/azul.bluestock" style="color:inherit; text-decoration:none;">@azul.blestock</a>
+      </div>
+    
+    </div>
+  </div>
+
+  <div class="contact-right reveal reveal-delay-1">
+    <div class="contact-actions" style="display: flex; flex-direction: column; gap: 18px;">
+      <button type="button" id="copy-email-btn" class="form-submit" style="text-align:center; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;">
+        <span id="copy-email-text">Copy Email</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:8px;">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <a href="https://instagram.com/azul.bluestock" target="_blank" class="form-submit" style="text-align:center; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
+        Instagram
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+          <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+        </svg>
+      </a>
+
+      <a href="https://wa.me/5492634313067" target="_blank" class="form-submit" style="text-align:center; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
+        WhatsApp
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+          <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <!-- EDIT: Your name and links -->
+  <a href="#" class="footer-logo">Azul Martin</a>
+
+</footer>
+
+<script>
+  // Generate brand pages (1-50)
+  const brandGrid = document.getElementById('brand-pages-grid');
+  const totalPages = 50;
+  const imagePath = 'images/villagi';
+  for (let i = 1; i <= totalPages; i++) {
+    const num = String(i).padStart(2, '0');
+    brandGrid.innerHTML += `
+      <div class="brand-page">
+        <img src="${imagePath}/(${i}).jpg" alt="Brand page ${i}" loading="lazy" onerror="this.parentElement.style.background='rgba(255,255,255,0.06)'">
+        <span class="brand-page-num">${num}</span>
+      </div>`;
+  }
+
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  (function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // Copy email to clipboard
+  document.getElementById('copy-email-btn').addEventListener('click', function() {
+    const email = 'azulmartin935@gmail.com';
+    navigator.clipboard.writeText(email).then(function() {
+      const textSpan = document.getElementById('copy-email-text');
+      const original = textSpan.textContent;
+      textSpan.textContent = 'Copied!';
+      setTimeout(() => { textSpan.textContent = original; }, 1500);
+    });
+  });
+</script>
+</body>
+</html>
