@@ -1,487 +1,597 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — Creative Design</title>
+<title>Azul Martin — Diseño gráfico e ilustración</title>
+<meta name="description" content="Portfolio de Azul Martin: diseño gráfico, identidad de marca, editorial, packaging, ilustración y video. Córdoba, Argentina.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Poiret+One&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poiret+One&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --cream: #F5FBFD;
     --ink: #0D0D0D;
-    --rust: #4A398D;
-    --gold: #D39BC6;
+    --violet: #4A398D;
+    --violet-deep: #241B47;
+    --lilac: #B9A6E8;
+    --pink: #D39BC6;
+    --teal: #2BB5B8;
+    --mustard: #E9C46A;
     --mist: #DAF1F8;
+    --muted: #5A5670;
+    --coral: #EF8A6F;
+    --sky: #7CC6EE;
   }
   html { scroll-behavior: smooth; }
-  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; cursor: none; overflow-x: hidden; }
-
-  /* CURSOR */
-  #cursor { width: 12px; height: 12px; background: var(--rust); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: transform 0.15s ease, background 0.2s ease; transform: translate(-50%,-50%); }
-  #cursor-ring { width: 36px; height: 36px; border: 1px solid var(--rust); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all 0.25s ease; opacity: 0.5; }
-  body:has(a:hover) #cursor, body:has(.work-item:hover) #cursor { transform: translate(-50%,-50%) scale(2.5); background: var(--gold); }
-  body:has(a:hover) #cursor-ring, body:has(.work-item:hover) #cursor-ring { transform: translate(-50%,-50%) scale(1.5); opacity: 0.2; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+  img, video { display: block; max-width: 100%; }
+  a { color: inherit; }
+  button { font-family: inherit; }
 
   /* NAV */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; background-color: var(--cream); border-bottom: var(--ink) solid 1px ; align-items: center; padding: 28px 48px; }
-  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.15em; color: var(--ink); text-decoration: none; }
-  .nav-links { display: flex; gap: 36px; }
-  .nav-links a { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); text-decoration: none; position: relative; }
-  .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--rust); transition: width 0.3s ease; }
-  .nav-links a:hover::after { width: 100%; }
+  nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 48px; background: rgba(245,251,253,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(74,57,141,0.15); }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.15em; text-decoration: none; white-space: nowrap; }
+  .logo span { color: var(--violet); }
+  .nav-right { display: flex; align-items: center; gap: 28px; }
+  .nav-links { display: flex; gap: 26px; }
+  .nav-links a { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .2s; }
+  .nav-links a:hover { border-color: var(--teal); }
+  .lang { display: inline-flex; border: 1.5px solid var(--violet); border-radius: 999px; padding: 3px; gap: 2px; }
+  .lang button { border: 0; background: transparent; color: var(--violet); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; padding: 7px 13px; border-radius: 999px; cursor: pointer; transition: all .2s; }
+  .lang button.on { background: var(--violet); color: var(--cream); }
+  .menu-btn { display: none; background: none; border: 1.5px solid var(--ink); border-radius: 999px; padding: 8px 14px; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; }
 
   /* HERO */
-  #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
-  .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 120px 48px 80px; }
-  .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
-  .hero-title { font-family: 'Poiret One', serif; font-size: clamp(4rem, 7vw, 8rem); font-weight: 300; line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s ease 0.5s forwards; }
-  .hero-title em { font-style: italic; color: var(--rust); }
-  .hero-desc { max-width: 340px; font-size: 0.95rem; line-height: 1.8; color: #555; opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards; }
-  .hero-right { position: relative; overflow: hidden; background: var(--ink); opacity: 0; animation: fadeIn 1s ease 0.9s forwards; }
-
-  .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; display: block; }
-
-  .hero-img-label { position: absolute; bottom: 32px; left: 32px; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
-  .scroll-hint { position: absolute; bottom: 48px; right: 48px; display: flex; align-items: center; gap: 12px; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #999; opacity: 0; animation: fadeUp 0.8s ease 1.2s forwards; }
-  .scroll-line { width: 48px; height: 1px; background: var(--gold); position: relative; overflow: hidden; }
-  .scroll-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--ink); animation: scanline 2s ease infinite; }
+  #hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; padding: 72px 48px 88px; min-height: calc(100vh - 70px); }
+  .eyebrow { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--violet); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ''; width: 28px; height: 2px; background: var(--teal); flex-shrink: 0; }
+  .hero-title { font-family: 'Poiret One', serif; font-weight: 400; font-size: clamp(3.4rem, 7vw, 7.5rem); line-height: 0.92; letter-spacing: -0.02em; margin-bottom: 28px; }
+  .hero-title em { font-style: italic; color: var(--violet); }
+  .hero-title .dot { color: var(--teal); }
+  .hero-desc { max-width: 430px; font-size: 1rem; line-height: 1.8; color: var(--muted); margin-bottom: 32px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 15px 28px; border-radius: 999px; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: 1.5px solid var(--violet); transition: all .25s; font-weight: 400; cursor: pointer; }
+  .btn.solid { background: var(--violet); color: var(--cream); }
+  .btn.solid:hover { background: var(--violet-deep); border-color: var(--violet-deep); }
+  .btn.ghost { color: var(--violet); }
+  .btn.ghost:hover { background: var(--violet); color: var(--cream); }
+  .hero-art { position: relative; aspect-ratio: 4/5; max-height: 76vh; justify-self: center; width: 100%; max-width: 460px; }
+  .hero-arch { position: absolute; inset: 0; border-radius: 240px 240px 24px 24px; background: linear-gradient(160deg, var(--lilac) 0%, var(--violet) 55%, var(--teal) 100%); overflow: hidden; }
+  .hero-arch img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-sun { position: absolute; width: 120px; height: 120px; border-radius: 50%; background: var(--mustard); top: -24px; right: -24px; z-index: -1; }
+  .hero-sticker { position: absolute; bottom: 28px; left: -28px; background: var(--cream); border: 1.5px solid var(--ink); border-radius: 999px; padding: 10px 18px; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; transform: rotate(-6deg); box-shadow: 4px 4px 0 var(--pink); }
 
   /* MARQUEE */
-  .marquee-wrap { overflow: hidden; background: var(--ink); padding: 18px 0; }
-  .marquee-track { display: flex; white-space: nowrap; animation: marquee 18s linear infinite; }
-  .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 0.3em; color: rgba(255,255,255,0.25); padding: 0 32px; flex-shrink: 0; }
-  .marquee-item.accent { color: var(--rust); }
+  .marquee { overflow: hidden; background: var(--violet); padding: 16px 0; }
+  .marquee-track { display: flex; width: max-content; white-space: nowrap; animation: marquee 24s linear infinite; }
+  .marquee span { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.3em; color: var(--cream); padding: 0 26px; }
+  .marquee span.star { color: var(--mustard); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
 
-  /* ABOUT */
-  #about { display: grid; grid-template-columns: 1fr 2fr; gap: 0; padding: 120px 48px; border-top: 1px solid rgba(13,13,13,0.1); }
-  .about-left { padding-right: 64px; }
-  .section-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 48px; display: flex; align-items: center; gap: 12px; }
-  .section-label::before { content: ''; width: 24px; height: 1px; background: var(--rust); }
-  .about-number { font-family: 'Poiret One', serif; font-size: 8rem; font-weight: 300; line-height: 1; color: var(--mist); margin-bottom: 16px; }
-  .about-right { padding-left: 64px; border-left: 1px solid var(--mist); }
-  .about-headline { font-family: 'Poiret One', serif; font-size: clamp(2rem, 3.5vw, 3.5rem); font-weight: 300; line-height: 1.15; margin-bottom: 32px; letter-spacing: -0.01em; }
-  .about-headline em { font-style: italic; }
-  .about-body { font-size: 0.95rem; line-height: 1.9; color: #555; max-width: 560px; margin-bottom: 48px; }
-  .about-body p + p { margin-top: 16px; }
-  .skills-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .skill-tag { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; border: 1px solid rgba(13,13,13,0.2); color: #555; transition: all 0.25s; }
-  .skill-tag:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  /* SECTIONS */
+  section { padding: 96px 48px; }
+  .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
+  .sec-title { font-family: 'Poiret One', serif; font-weight: 400; font-size: clamp(2.6rem, 5vw, 4.8rem); line-height: 1; letter-spacing: -0.02em; }
+  .sec-title em { font-style: italic; color: var(--violet); }
+  .sec-note { font-size: 0.9rem; color: var(--muted); max-width: 360px; line-height: 1.7; }
 
-  /* WORK */
-  #work { padding: 0 48px 120px; }
-  .work-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 80px 0 60px; border-top: 1px solid rgba(13,13,13,0.1); }
-  .work-title { font-family: 'Poiret One', serif; font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 300; letter-spacing: -0.02em; line-height: 1; }
-  .work-title em { font-style: italic; color: var(--rust); }
-  .work-count { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: #999; padding-bottom: 8px; }
+  /* FILTERS */
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; border: 1.5px solid rgba(13,13,13,0.15); background: transparent; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all .2s; color: var(--ink); }
+  .chip i { width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--ink)); }
+  .chip:hover { border-color: var(--c, var(--ink)); }
+  .chip.on { background: var(--c, var(--ink)); border-color: var(--c, var(--ink)); color: var(--on, #fff); }
+  .chip.on i { background: var(--on, #fff); }
 
-  /* GALLERY */
-  .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  /* CARDS */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .card { cursor: pointer; display: flex; flex-direction: column; gap: 14px; transition: transform .25s; }
+  .card:hover { transform: translateY(-4px); }
+  .card-img { aspect-ratio: 4/3; border-radius: 18px; overflow: hidden; background: var(--mist); position: relative; }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+  .card:hover .card-img img { transform: scale(1.05); }
+  .card-img::after { content: attr(data-view); position: absolute; right: 12px; bottom: 12px; background: var(--cream); padding: 7px 12px; border-radius: 999px; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0; transform: translateY(6px); transition: all .25s; }
+  .card:hover .card-img::after { opacity: 1; transform: none; }
+  .tag { align-self: flex-start; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; background: var(--c); color: var(--on, #fff); font-weight: 500; }
+  .card h3 { font-family: 'Poiret One', serif; font-size: 1.55rem; font-weight: 400; line-height: 1.1; }
+  .card p { font-size: 0.88rem; line-height: 1.65; color: var(--muted); }
+  .card.hide { display: none; }
 
-  .work-item { position: relative; overflow: hidden; background: var(--mist); }
-  /* Asymmetric layout — 8 items */
-  .work-item:nth-child(1) { grid-column: span 7; }
-  .work-item:nth-child(2) { grid-column: span 5; }
-  .work-item:nth-child(3) { grid-column: span 4; }
-  .work-item:nth-child(4) { grid-column: span 4; }
-  .work-item:nth-child(5) { grid-column: span 4; }
-  .work-item:nth-child(6) { grid-column: span 5; }
-  .work-item:nth-child(7) { grid-column: span 7; }
-  .work-item:nth-child(8) { grid-column: span 12; }
+  .card p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .card .count { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); }
 
-  .work-item-inner { position: relative; width: 100%; height: 100%; padding-bottom: 70%; overflow: hidden; }
-  .work-item:nth-child(1) .work-item-inner,
-  .work-item:nth-child(7) .work-item-inner { padding-bottom: 85%; }
-  .work-item:nth-child(8) .work-item-inner { padding-bottom: 45%; }
+  .cat-editorial { --c: var(--violet); }
+  .cat-posters { --c: var(--coral); --on: var(--ink); }
+  .cat-packaging { --c: var(--mustard); --on: var(--ink); }
+  .cat-brand { --c: var(--teal); }
+  .cat-patterns { --c: var(--lilac); --on: var(--ink); }
+  .cat-type { --c: var(--ink); }
+  .cat-illustration { --c: var(--pink); --on: var(--ink); }
+  .cat-pixel { --c: var(--sky); --on: var(--ink); }
+  .cat-video { --c: var(--lilac); --on: var(--ink); }
+  .pixelated img, img.pixelated { image-rendering: pixelated; }
 
-  .work-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: block; }
-  .work-item:hover .work-img { transform: scale(1.05); }
-
-  .work-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.85) 0%, transparent 55%); opacity: 0; transition: opacity 0.4s ease; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; }
-  .work-item:hover .work-overlay { opacity: 1; }
-  .work-overlay-title { font-family: 'Poiret One', serif; font-size: 1.5rem; font-weight: 300; color: white; margin-bottom: 4px; transform: translateY(8px); transition: transform 0.4s ease; }
-  .work-item:hover .work-overlay-title { transform: translateY(0); }
-  .work-overlay-cat { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); transform: translateY(8px); transition: transform 0.4s ease 0.05s; }
-  .work-item:hover .work-overlay-cat { transform: translateY(0); }
+  /* VIDEO */
+  #video { background: linear-gradient(180deg, var(--mist) 0%, var(--cream) 100%); }
+  .videos { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 48px; align-items: start; }
+  .vid { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .vid h3 { font-family: 'Poiret One', serif; font-size: 1.5rem; font-weight: 400; }
+  .vid p { font-size: 0.86rem; color: var(--muted); line-height: 1.6; max-width: 560px; }
+  .phone-frame { width: 260px; aspect-ratio: 9/16; border-radius: 36px; padding: 10px; background: var(--ink); box-shadow: 10px 10px 0 var(--lilac); }
+  .phone-frame video { width: 100%; height: 100%; object-fit: cover; border-radius: 27px; background: var(--violet-deep); }
+  .wide-frame { width: 100%; aspect-ratio: 16/9; border-radius: 22px; padding: 10px; background: var(--ink); box-shadow: 10px 10px 0 var(--teal); }
+  .wide-frame video { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; background: var(--violet-deep); }
+  .parts { display: inline-flex; border: 1.5px solid var(--ink); border-radius: 999px; padding: 3px; gap: 2px; }
+  .parts button { border: 0; background: transparent; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 14px; border-radius: 999px; cursor: pointer; color: var(--ink); }
+  .parts button.on { background: var(--ink); color: var(--cream); }
 
   /* BRAND */
-  #brand { padding: 80px 48px 120px; background: var(--ink); color: var(--cream); position: relative; overflow: hidden; }
-  #brand::before { content: 'BRAND'; position: absolute; top: -20px; right: -20px; font-family: 'Bebas Neue', sans-serif; font-size: 20rem; color: rgba(255,255,255,0.02); pointer-events: none; line-height: 1; }
-  .brand-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 64px; }
-  .brand-title { font-family: 'Poiret One', serif; font-size: clamp(3rem, 5vw, 5rem); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; }
-  .brand-title em { font-style: italic; color: var(--gold); }
-  .brand-subtitle { font-size: 0.85rem; line-height: 1.8; color: rgba(255,255,255,0.4); max-width: 280px; margin-top: 8px; }
-  .brand-section-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
-  .brand-section-label::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+  #brand { background: var(--violet-deep); color: var(--cream); }
+  #brand .sec-title em { color: var(--mustard); }
+  #brand .sec-note { color: rgba(245,251,253,0.65); }
+  .viewer { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: center; }
+  .viewer-stage { border-radius: 18px; overflow: hidden; background: #fff; aspect-ratio: 29.7/21; }
+  .viewer-stage img { width: 100%; height: 100%; object-fit: contain; }
+  .arrow { width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(245,251,253,0.4); background: transparent; color: var(--cream); font-size: 1.2rem; cursor: pointer; transition: all .2s; }
+  .arrow:hover { background: var(--mustard); color: var(--ink); border-color: var(--mustard); }
+  .viewer-meta { display: flex; justify-content: space-between; margin-top: 16px; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,251,253,0.65); }
+  .thumbs { display: flex; gap: 8px; overflow-x: auto; margin-top: 16px; padding-bottom: 6px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.25) transparent; }
+  .thumbs img { width: 92px; aspect-ratio: 29.7/21; object-fit: cover; border-radius: 8px; opacity: 0.45; cursor: pointer; flex-shrink: 0; border: 2px solid transparent; transition: opacity .2s; }
+  .thumbs img:hover { opacity: 0.8; }
+  .thumbs img.on { opacity: 1; border-color: var(--mustard); }
 
-  .brand-pages-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
-  .brand-pages-grid::-webkit-scrollbar { height: 4px; }
-  .brand-pages-grid::-webkit-scrollbar-track { background: transparent; }
-  .brand-pages-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
-  .brand-page { position: relative; background: rgba(255,255,255,0.04); overflow: hidden; aspect-ratio: 29.7/21; flex-shrink: 0; width: 300px; scroll-snap-align: start; }
-  .brand-page img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
-  .brand-page:hover img { transform: scale(1.03); }
-  .brand-page-num { position: absolute; bottom: 12px; left: 12px; font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); }
+  /* ABOUT */
+  #about { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; }
+  .about-body { font-size: 1rem; line-height: 1.85; color: var(--muted); }
+  .about-body p + p { margin-top: 14px; }
+  .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .skills span { padding: 8px 14px; border-radius: 999px; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--c); color: var(--on, #fff); }
 
   /* CONTACT */
-  #contact { padding: 120px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; border-top: 1px solid rgba(13,13,13,0.1); }
-  .contact-title { font-family: 'Poiret One', serif; font-size: clamp(3rem, 4.5vw, 5rem); font-weight: 300; line-height: 1; letter-spacing: -0.02em; margin-bottom: 40px; }
-  .contact-title em { font-style: italic; }
-  .contact-info { display: flex; flex-direction: column; gap: 20px; }
-  .contact-line { display: flex; align-items: flex-start; gap: 16px; font-size: 0.9rem; color: #444; }
-  .contact-line-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); width: 64px; flex-shrink: 0; padding-top: 2px; }
-  .contact-right { padding-top: 16px; }
-  .contact-form { display: flex; flex-direction: column; }
-  .form-group { border-bottom: 1px solid rgba(13,13,13,0.12); }
-  .form-group label { display: block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #999; padding: 20px 0 6px; }
-  .form-group input, .form-group textarea { width: 100%; background: transparent; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--ink); padding: 8px 0 20px; resize: none; cursor: none; }
-  .form-group textarea { min-height: 100px; }
-  .form-submit { margin-top: 32px; display: inline-flex; align-items: center; gap: 12px; padding: 18px 40px; background: transparent; border: 1px solid var(--ink); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); cursor: none; transition: all 0.3s ease; }
-  .form-submit:hover { background: var(--ink); color: var(--cream); }
-  .form-submit svg { transition: transform 0.3s; }
-  .form-submit:hover svg { transform: translateX(4px); }
+  #contact { background: var(--teal); color: var(--ink); display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; border-radius: 32px 32px 0 0; }
+  #contact .sec-title em { color: var(--violet-deep); }
+  .contact-lines { margin-top: 28px; display: grid; gap: 10px; font-size: 0.95rem; }
+  .contact-lines b { font-weight: 500; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; display: inline-block; width: 96px; }
+  .contact-lines a { text-decoration: none; }
+  .contact-lines a:hover { text-decoration: underline; }
+  .contact-btns { display: grid; gap: 12px; }
+  .contact-btns .btn { background: var(--cream); color: var(--ink); border-color: var(--cream); }
+  .contact-btns .btn:hover { background: var(--violet-deep); color: var(--cream); border-color: var(--violet-deep); }
+  footer { background: var(--ink); color: rgba(245,251,253,0.5); padding: 28px 48px; display: flex; justify-content: space-between; gap: 12px; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; }
 
-  /* FOOTER */
-  footer { padding: 32px 48px; background: var(--ink); color: rgba(255,255,255,0.3); display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.6); text-decoration: none; }
-  .social-links { display: flex; gap: 24px; }
-  .social-links a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
-  .social-links a:hover { color: var(--gold); }
+  /* MODAL */
+  .modal { position: fixed; inset: 0; background: rgba(36,27,71,0.88); z-index: 200; display: none; align-items: center; justify-content: center; padding: 32px; }
+  .modal.open { display: flex; }
+  body.locked { overflow: hidden; }
+  .modal-box { background: var(--cream); border-radius: 24px; max-width: 1180px; width: 100%; height: min(88vh, 820px); overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr); }
+  .stage-wrap { display: flex; flex-direction: column; min-height: 0; background: var(--mist); }
+  .stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+  .stage img, .stage video { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .stage .nav-img { position: absolute; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%; border: 0; background: rgba(245,251,253,0.92); color: var(--ink); font-size: 1.1rem; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .stage .nav-img.prev { left: 14px; } .stage .nav-img.next { right: 14px; }
+  .stage .counter { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(36,27,71,0.75); color: var(--cream); font-size: 0.7rem; letter-spacing: 0.12em; padding: 5px 12px; border-radius: 999px; }
+  .strip { display: flex; gap: 6px; overflow-x: auto; padding: 10px; background: rgba(36,27,71,0.06); scrollbar-width: thin; }
+  .strip button { flex-shrink: 0; width: 64px; height: 64px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; padding: 0; background: #fff; cursor: pointer; opacity: 0.6; position: relative; }
+  .strip button.on { border-color: var(--violet); opacity: 1; }
+  .strip img { width: 100%; height: 100%; object-fit: cover; }
+  .strip .play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; background: rgba(36,27,71,0.45); }
+  .modal-info { padding: 40px 32px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+  .modal-info h3 { font-family: 'Poiret One', serif; font-size: 2.2rem; font-weight: 400; line-height: 1.05; }
+  .modal-info p { color: var(--muted); line-height: 1.75; }
+  .modal-nav { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+  .modal-nav button, .modal-close { border: 1.5px solid var(--ink); background: none; border-radius: 999px; padding: 10px 18px; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; color: var(--ink); }
+  .modal-close { position: absolute; top: 20px; right: 24px; background: var(--cream); }
 
-  /* REVEAL */
-  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
-  .reveal-delay-1 { transition-delay: 0.15s; }
-  .reveal-delay-2 { transition-delay: 0.3s; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes scanline { 0% { left:-100%; } 100% { left:200%; } }
-
-  /* MOBILE */
-  @media (max-width: 768px) {
-    nav { padding: 20px 24px; }
-    .nav-links { display: none; }
-    #hero { grid-template-columns: 1fr; }
-    .hero-right { height: 50vw; }
-    .hero-left { padding: 100px 24px 64px; }
-    #about { grid-template-columns: 1fr; padding: 64px 24px; }
-    .about-left { padding-right: 0; margin-bottom: 32px; }
-    .about-right { padding-left: 0; border-left: none; border-top: 1px solid var(--mist); padding-top: 32px; }
-    #work { padding: 0 24px 80px; }
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .work-item:nth-child(n) { grid-column: span 1; }
-    .work-item-inner, .work-item:nth-child(1) .work-item-inner, .work-item:nth-child(7) .work-item-inner, .work-item:nth-child(8) .work-item-inner { padding-bottom: 80%; }
-    #brand { padding: 64px 24px; }
-    #brand::before { display: none; }
-    .brand-header { flex-direction: column; gap: 16px; }
-    #contact { grid-template-columns: 1fr; padding: 64px 24px; gap: 48px; }
-    footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; }
-    body { cursor: auto; }
-    #cursor, #cursor-ring { display: none; }
+  @media (max-width: 960px) {
+    .videos { grid-template-columns: 1fr; justify-items: center; }
+    .vid.wide { width: 100%; }
   }
+  @media (max-width: 860px) {
+    nav { padding: 14px 16px; }
+    .nav-right { gap: 10px; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--cream); border-bottom: 1px solid rgba(74,57,141,0.15); }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 16px 20px; border-bottom: 1px solid rgba(13,13,13,0.06); }
+    .menu-btn { display: block; }
+    #hero { grid-template-columns: 1fr; padding: 40px 20px 64px; min-height: 0; }
+    .hero-art { max-width: 320px; }
+    .hero-sticker { left: -8px; }
+    section { padding: 64px 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .viewer { grid-template-columns: 1fr; }
+    .arrow { display: none; }
+    #about, #contact { grid-template-columns: 1fr; gap: 32px; }
+    .modal { padding: 0; }
+    .modal-box { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; height: 100%; border-radius: 0; }
+    .modal-info { padding: 20px; max-height: 38vh; }
+    .modal-info h3 { font-size: 1.6rem; }
+    .modal-close { top: 10px; right: 10px; z-index: 2; }
+    footer { flex-direction: column; padding: 24px 20px; }
+  }
+  @media (min-width: 861px) and (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
 <nav>
-  <a href="#" class="nav-logo">Azul Martin</a>
-  <div class="nav-links">
-    <a href="#work">Work</a>
-    <a href="#brand">Brand</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+  <a href="#" class="logo">Azul <span>Martin</span></a>
+  <div class="nav-right">
+    <div class="nav-links" id="nav-links">
+      <a href="#work" data-i18n="nav.work">Trabajos</a>
+      <a href="#video" data-i18n="nav.video">Video</a>
+      <a href="#brand" data-i18n="nav.brand">Marca</a>
+      <a href="#about" data-i18n="nav.about">Sobre mí</a>
+      <a href="#contact" data-i18n="nav.contact">Contacto</a>
+    </div>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="es" class="on">ES</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <button type="button" class="menu-btn" id="menu-btn" data-i18n="nav.menu">Menú</button>
   </div>
 </nav>
 
 <section id="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow">Graphic Designer &amp; Illustrator</p>
-    <h1 class="hero-title">
-      Creative<br>
-      <em>by</em><br>
-      Design
-    </h1>
-    <p class="hero-desc">
-      Crafting visual identities, brand systems, and illustrations, taking care of details and vailable for projects.
-    </p>
-  </div>
-  <div class="hero-right">
-
-    <img
-      src="images/face.jpeg"
-      alt="Featured work"
-      class="hero-img"
-      onerror="this.parentElement.style.background='var(--ink)'"
-    >
-  </div>
-
-</section>
-
-
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">Brand Identity</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Visual Systems</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Editorial Design</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Packaging</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Typography</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Illustration</span>
-    <span class="marquee-item accent">✦</span>
-    <!-- duplicate for seamless loop -->
-    <span class="marquee-item">Brand Identity</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Visual Systems</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Editorial Design</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Packaging</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Typography</span>
-    <span class="marquee-item accent">✦</span>
-    <span class="marquee-item">Illustration</span>
-    <span class="marquee-item accent">✦</span>
-  </div>
-</div>
-<section id="about">
-  <div class="about-left reveal">
-    <div class="section-label">About</div>
-    <div class="about-number">01</div>
-  </div>
-  <div class="about-right reveal reveal-delay-1">
-    <h2 class="about-headline">
-      Design that <em>shows</em><br>your ideas.
-    </h2>
-    <div class="about-body">
-      <p>I'm a graphic designer with a passion for building brands that stand out the rest. My work lives at the intersection of personality and aesthetics — where great ideas come to life.</p>
-      <p>With experience across identity, packaging, and illustration, I bring a creative approach to design — ensuring every project is both visually compelling and functional.</p>
-    </div>
-    <div class="skills-row">
-      <span class="skill-tag">Brand Identity</span>
-      <span class="skill-tag">Logo Design</span>
-      <span class="skill-tag">Print</span>
-      <span class="skill-tag">Packaging</span>
-      <span class="skill-tag">Typography</span>
-      <span class="skill-tag">Illustration</span>
-      <span class="skill-tag">Editorial</span>
+  <div>
+    <div class="eyebrow" data-i18n="hero.eyebrow">Diseñadora gráfica e ilustradora · Córdoba, AR</div>
+    <h1 class="hero-title" data-i18n-html="hero.title">Diseño<br><em>con</em> carácter<span class="dot">.</span></h1>
+    <p class="hero-desc" data-i18n="hero.desc">Creo identidades visuales, sistemas de marca e ilustraciones, cuidando cada detalle. Disponible para proyectos.</p>
+    <div class="cta-row">
+      <a href="#work" class="btn solid" data-i18n="hero.cta1">Ver mis trabajos →</a>
+      <a href="#contact" class="btn ghost" data-i18n="hero.cta2">Hablemos</a>
     </div>
   </div>
+  <div class="hero-art">
+    <div class="hero-sun"></div>
+    <div class="hero-arch"><img src="images/face.jpeg" alt="Azul Martin"></div>
+    <div class="hero-sticker" data-i18n="hero.sticker">✦ Disponible</div>
+  </div>
 </section>
+
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
 <section id="work">
-  <div class="work-header">
-    <h2 class="work-title reveal">Selected<br><em>Work</em></h2>
-    <div class="work-count reveal">8 Projects</div>
+  <div class="sec-head">
+    <h2 class="sec-title" data-i18n-html="work.title">Trabajos <em>seleccionados</em></h2>
+    <p class="sec-note" data-i18n="work.note">Hacé clic en un proyecto para ver la galería completa, con su proceso y la historia detrás.</p>
   </div>
+  <div class="filters" id="filters">
+    <button type="button" class="chip on" data-f="all" data-i18n="cat.all">Todos</button>
+    <button type="button" class="chip cat-editorial" data-f="editorial"><i></i><span data-i18n="cat.editorial">Editorial</span></button>
+    <button type="button" class="chip cat-posters" data-f="posters"><i></i><span data-i18n="cat.posters">Afiches</span></button>
+    <button type="button" class="chip cat-packaging" data-f="packaging"><i></i><span data-i18n="cat.packaging">Packaging</span></button>
+    <button type="button" class="chip cat-brand" data-f="brand"><i></i><span data-i18n="cat.brandShort">Marca</span></button>
+    <button type="button" class="chip cat-patterns" data-f="patterns"><i></i><span data-i18n="cat.patterns">Patrones</span></button>
+    <button type="button" class="chip cat-type" data-f="type"><i></i><span data-i18n="cat.type">Tipografía</span></button>
+    <button type="button" class="chip cat-illustration" data-f="illustration"><i></i><span data-i18n="cat.illustration">Ilustración</span></button>
+    <button type="button" class="chip cat-pixel" data-f="pixel"><i></i><span data-i18n="cat.pixel">Pixel art</span></button>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
 
-  <div class="gallery-grid">
-
-    <div class="work-item reveal">
-      <div class="work-item-inner">
-        <img src="images/work-1.png" alt="Project 1" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">Las Ciudades y los Signos 1</div>
-          <div class="work-overlay-cat">Editorial</div>
-        </div>
-      </div>
+<section id="video">
+  <div class="sec-head">
+    <h2 class="sec-title" data-i18n-html="video.title">Motion y <em>video</em></h2>
+    <p class="sec-note" data-i18n="video.note">Reels y videos cortos editados en Adobe Premiere y CapCut. Dale play para verlos con sonido.</p>
+  </div>
+  <div class="videos">
+    <div class="vid">
+      <div class="phone-frame"><video src="videos/guinevere-glitch.mp4" poster="videos/guinevere-glitch.jpg" controls muted playsinline preload="none"></video></div>
+      <span class="tag cat-illustration">Reel</span>
+      <h3>Guinevere — glitch</h3>
+      <p data-i18n="video.g.desc">Reel de presentación de ilustraciones de personajes con efecto glitch.</p>
     </div>
-
-    <div class="work-item reveal reveal-delay-1">
-      <div class="work-item-inner">
-        <img src="images/work-2.png" alt="Project 2" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">La Muerte Del Cisne Negro</div>
-          <div class="work-overlay-cat">Editorial</div>
-        </div>
+    <div class="vid wide">
+      <div class="wide-frame"><video id="wallet" src="videos/pixel-wallet-1.mp4" poster="videos/pixel-wallet-1.jpg" controls muted playsinline preload="none"></video></div>
+      <div class="parts" id="parts">
+        <button type="button" class="on" data-part="1" data-i18n="video.w.p1">Parte 1</button>
+        <button type="button" data-part="2" data-i18n="video.w.p2">Parte 2</button>
       </div>
+      <h3 data-i18n="video.w.title">Billetera pixel</h3>
+      <p data-i18n="video.w.desc">Personalización a mano de una billetera: flores en pixel art pintadas paso a paso, en dos partes.</p>
     </div>
-
-    <div class="work-item reveal">
-      <div class="work-item-inner">
-        <img src="images/work-3.jpg" alt="Project 3" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">Cassaro - Sleeve Label</div>
-          <div class="work-overlay-cat">Packaging</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="work-item reveal reveal-delay-1">
-      <div class="work-item-inner">
-        <img src="images/work-4.jpg" alt="Project 4" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">Hat Mockup</div>
-          <div class="work-overlay-cat">Packaging</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="work-item reveal reveal-delay-2">
-      <div class="work-item-inner">
-        <img src="images/work-5.jpg" alt="Project 5" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">Vector Skull</div>
-          <div class="work-overlay-cat">Illustration</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="work-item reveal">
-      <div class="work-item-inner">
-        <img src="images/work-6.jpg" alt="Project 6" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">Instagram Post Model</div>
-          <div class="work-overlay-cat">Brand Identity</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="work-item reveal reveal-delay-1">
-      <div class="work-item-inner">
-        <img src="images/work-7.jpg" alt="Project 7" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">Vector Eye</div>
-          <div class="work-overlay-cat">Illustration</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="work-item reveal">
-      <div class="work-item-inner">
-        <img src="images/work-8.jpg" alt="Project 8" class="work-img" onerror="this.style.display='none'">
-        <div class="work-overlay">
-          <div class="work-overlay-title">Abstract Handmade Face</div>
-          <div class="work-overlay-cat">Illustration</div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
 <section id="brand">
-  <div class="brand-header reveal">
-    <div>
-
-      <h2 class="brand-title">Brand<br><em>Design</em><br>Files</h2>
-    </div>
-    <p class="brand-subtitle">A complete brand identity system — from logo and colour palette to typography and applications.</p>
+  <div class="sec-head">
+    <h2 class="sec-title" data-i18n-html="brand.title">Manual de marca<br><em>Villa Giardino</em></h2>
+    <p class="sec-note" data-i18n="brand.note">Un sistema de identidad completo: logo, paleta de color, tipografía y aplicaciones. 50 páginas.</p>
   </div>
-
-  <div class="brand-section-label reveal">Brand Guidelines</div>
-
-  <div class="brand-pages-grid reveal" id="brand-pages-grid"></div>
+  <div class="viewer">
+    <button type="button" class="arrow" id="prev" aria-label="Anterior">←</button>
+    <div class="viewer-stage"><img id="page" src="images/villagi/(1).jpg" alt="Manual de marca Villa Giardino, página 1"></div>
+    <button type="button" class="arrow" id="next" aria-label="Siguiente">→</button>
+  </div>
+  <div class="viewer-meta"><span data-i18n="brand.label">Guía de marca</span><span id="count">01 / 50</span></div>
+  <div class="thumbs" id="thumbs"></div>
 </section>
 
-<section id="contact">
-  <div class="contact-left reveal">
-    <div class="section-label">Contact</div>
-    <h2 class="contact-title">Let's work together.</h2>
-    <div class="contact-info">
-
-      <div class="contact-line">
-        <span class="contact-line-label">Email</span>
-        <span>azulmartin935@gmail.com</span>
-      </div>
-      <div class="contact-line">
-        <span class="contact-line-label">Based</span>
-        <span>Cordoba Capital, Argentina</span>
-      </div>
-      <div class="contact-line">
-        <span class="contact-line-label">Instagram</span>
-        <a href="https://instagram.com/azul.bluestock" style="color:inherit; text-decoration:none;">@azul.bluestock</a>
-      </div>
-    
-    </div>
+<section id="about">
+  <div>
+    <div class="eyebrow" data-i18n="about.eyebrow">Sobre mí</div>
+    <h2 class="sec-title" data-i18n-html="about.title">Diseño que <em>muestra</em> tus ideas.</h2>
   </div>
-
-  <div class="contact-right reveal reveal-delay-1">
-    <div class="contact-actions" style="display: flex; flex-direction: column; gap: 18px;">
-      <button type="button" id="copy-email-btn" class="form-submit" style="text-align:center; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer;">
-        <span id="copy-email-text">Copy Email</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:8px;">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-      <a href="https://instagram.com/azul.bluestock" target="_blank" class="form-submit" style="text-align:center; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
-        Instagram
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-          <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-        </svg>
-      </a>
-
-      <a href="https://wa.me/5492634313067" target="_blank" class="form-submit" style="text-align:center; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
-        WhatsApp
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
-          <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
-        </svg>
-      </a>
+  <div>
+    <div class="about-body">
+      <p data-i18n="about.p1">Soy diseñadora gráfica y me apasiona crear marcas que se destaquen. Mi trabajo vive en el cruce entre la personalidad y la estética, donde las buenas ideas cobran vida.</p>
+      <p data-i18n="about.p2">Con experiencia en identidad, packaging e ilustración, aplico un enfoque creativo al diseño para que cada proyecto sea atractivo y funcional.</p>
+    </div>
+    <div class="skills">
+      <span class="cat-brand" data-i18n="cat.brand">Identidad de marca</span>
+      <span class="cat-editorial" data-i18n="cat.editorial">Editorial</span>
+      <span class="cat-packaging" data-i18n="cat.packaging">Packaging</span>
+      <span class="cat-illustration" data-i18n="cat.illustration">Ilustración</span>
+      <span class="cat-editorial" data-i18n="skill.type">Tipografía</span>
+      <span class="cat-video" data-i18n="skill.video">Edición de video</span>
     </div>
   </div>
 </section>
 
-<footer>
-  <a href="#" class="footer-logo">Azul Martin</a>
+<section id="contact">
+  <div>
+    <h2 class="sec-title" data-i18n-html="contact.title">Trabajemos <em>juntos.</em></h2>
+    <div class="contact-lines">
+      <div><b>Email</b> <a href="mailto:azulmartin935@gmail.com">azulmartin935@gmail.com</a></div>
+      <div><b data-i18n="contact.based">Ciudad</b> Córdoba Capital, Argentina</div>
+      <div><b>Instagram</b> <a href="https://www.instagram.com/ameba.azul305/" target="_blank" rel="noopener">@ameba.azul305</a></div>
+      <div><b>LinkedIn</b> <a href="https://www.linkedin.com/in/azul-mart%C3%ADn-a03372346/" target="_blank" rel="noopener">Azul Martín</a></div>
+    </div>
+  </div>
+  <div class="contact-btns">
+    <button type="button" class="btn" id="copy-email" data-i18n="contact.copy">Copiar email</button>
+    <a class="btn" href="https://www.linkedin.com/in/azul-mart%C3%ADn-a03372346/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://www.instagram.com/ameba.azul305/" target="_blank" rel="noopener">Instagram</a>
+    <a class="btn" href="https://wa.me/5492634313067" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</section>
+<footer><span>Azul Martin</span><span data-i18n="footer">Diseño gráfico · Ilustración · Video</span></footer>
 
-</footer>
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <button type="button" class="modal-close" id="modal-close" data-i18n="modal.close">Cerrar ✕</button>
+  <div class="modal-box">
+    <div class="stage-wrap">
+      <div class="stage" id="stage">
+        <button type="button" class="nav-img prev" id="img-prev" aria-label="←">←</button>
+        <button type="button" class="nav-img next" id="img-next" aria-label="→">→</button>
+        <span class="counter" id="img-count"></span>
+      </div>
+      <div class="strip" id="strip"></div>
+    </div>
+    <div class="modal-info">
+      <span class="tag" id="m-tag"></span>
+      <h3 id="m-title"></h3>
+      <p id="m-desc"></p>
+      <div id="m-links" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+      <div class="modal-nav">
+        <button type="button" id="m-prev" data-i18n="modal.prev">← Proyecto anterior</button>
+        <button type="button" id="m-next" data-i18n="modal.next">Proyecto siguiente →</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<script src="projects.js"></script>
 <script>
+  const T = {
+    es: {
+      'nav.work': 'Trabajos', 'nav.video': 'Video', 'nav.brand': 'Marca', 'nav.about': 'Sobre mí', 'nav.contact': 'Contacto', 'nav.menu': 'Menú',
+      'hero.eyebrow': 'Diseñadora gráfica e ilustradora · Córdoba, AR',
+      'hero.title': 'Diseño<br><em>con</em> carácter<span class="dot">.</span>',
+      'hero.desc': 'Creo identidades visuales, sistemas de marca e ilustraciones, cuidando cada detalle. Disponible para proyectos.',
+      'hero.cta1': 'Ver mis trabajos →', 'hero.cta2': 'Hablemos', 'hero.sticker': '✦ Disponible',
+      'work.title': 'Trabajos <em>seleccionados</em>',
+      'work.note': 'Hacé clic en un proyecto para ver la galería completa, con su proceso y la historia detrás.',
+      'work.view': 'Ver proyecto →',
+      'cat.all': 'Todos', 'cat.posters': 'Afiches', 'cat.patterns': 'Patrones', 'cat.type': 'Tipografía', 'cat.pixel': 'Pixel art', 'work.images': 'imágenes', 'work.image': 'imagen', 'cat.editorial': 'Editorial', 'cat.packaging': 'Packaging', 'cat.brand': 'Identidad de marca', 'cat.brandShort': 'Marca', 'cat.illustration': 'Ilustración',
+      'video.title': 'Motion y <em>video</em>',
+      'video.note': 'Reels y videos cortos editados en Adobe Premiere y CapCut. Dale play para verlos con sonido.',
+      'video.g.desc': 'Reel de presentación de ilustraciones de personajes con efecto glitch.',
+      'video.w.title': 'Billetera pixel', 'video.w.p1': 'Parte 1', 'video.w.p2': 'Parte 2',
+      'video.w.desc': 'Personalización a mano de una billetera: flores en pixel art pintadas paso a paso, en dos partes.',
+      'brand.title': 'Manual de marca<br><em>Villa Giardino</em>',
+      'brand.note': 'Un sistema de identidad completo: logo, paleta de color, tipografía y aplicaciones. 50 páginas.',
+      'brand.label': 'Guía de marca', 'brand.page': 'Manual de marca Villa Giardino, página',
+      'about.eyebrow': 'Sobre mí', 'about.title': 'Diseño que <em>muestra</em> tus ideas.',
+      'about.p1': 'Soy diseñadora gráfica y me apasiona crear marcas que se destaquen. Mi trabajo vive en el cruce entre la personalidad y la estética, donde las buenas ideas cobran vida.',
+      'about.p2': 'Con experiencia en identidad, packaging e ilustración, aplico un enfoque creativo al diseño para que cada proyecto sea atractivo y funcional.',
+      'skill.type': 'Tipografía', 'skill.video': 'Edición de video',
+      'contact.title': 'Trabajemos <em>juntos.</em>', 'contact.based': 'Ciudad', 'contact.copy': 'Copiar email', 'contact.copied': '¡Copiado!',
+      'footer': 'Diseño gráfico · Ilustración · Video',
+      'modal.close': 'Cerrar ✕', 'modal.prev': '← Proyecto anterior', 'modal.next': 'Proyecto siguiente →',
+      'marquee': ['Identidad de marca', 'Editorial', 'Packaging', 'Ilustración', 'Video'],
+      'meta.title': 'Azul Martin — Diseño gráfico e ilustración',
+    },
+    en: {
+      'nav.work': 'Work', 'nav.video': 'Video', 'nav.brand': 'Brand', 'nav.about': 'About', 'nav.contact': 'Contact', 'nav.menu': 'Menu',
+      'hero.eyebrow': 'Graphic designer & illustrator · Córdoba, AR',
+      'hero.title': 'Creative<br><em>by</em> Design<span class="dot">.</span>',
+      'hero.desc': 'Crafting visual identities, brand systems and illustrations, taking care of every detail. Available for projects.',
+      'hero.cta1': 'See my work →', 'hero.cta2': "Let's talk", 'hero.sticker': '✦ Open to work',
+      'work.title': 'Selected <em>work</em>',
+      'work.note': 'Click any project to see the full gallery, with its process and the story behind it.',
+      'work.view': 'View project →',
+      'cat.all': 'All', 'cat.posters': 'Posters', 'cat.patterns': 'Patterns', 'cat.type': 'Typography', 'cat.pixel': 'Pixel art', 'work.images': 'images', 'work.image': 'image', 'cat.editorial': 'Editorial', 'cat.packaging': 'Packaging', 'cat.brand': 'Brand identity', 'cat.brandShort': 'Brand', 'cat.illustration': 'Illustration',
+      'video.title': 'Motion & <em>video</em>',
+      'video.note': 'Reels and short videos edited in Adobe Premiere and CapCut. Press play to watch them with sound.',
+      'video.g.desc': 'Presentation reel of character illustrations with a glitch effect.',
+      'video.w.title': 'Pixel wallet', 'video.w.p1': 'Part 1', 'video.w.p2': 'Part 2',
+      'video.w.desc': 'Hand-customizing a wallet: pixel-art flowers painted step by step, in two parts.',
+      'brand.title': 'Villa Giardino<br><em>brand book</em>',
+      'brand.note': 'A complete brand identity system: logo, colour palette, typography and applications. 50 pages.',
+      'brand.label': 'Brand guidelines', 'brand.page': 'Villa Giardino brand book, page',
+      'about.eyebrow': 'About', 'about.title': 'Design that <em>shows</em> your ideas.',
+      'about.p1': "I'm a graphic designer with a passion for building brands that stand out from the rest. My work lives at the intersection of personality and aesthetics — where great ideas come to life.",
+      'about.p2': 'With experience across identity, packaging and illustration, I bring a creative approach to design — ensuring every project is both visually compelling and functional.',
+      'skill.type': 'Typography', 'skill.video': 'Video editing',
+      'contact.title': "Let's work <em>together.</em>", 'contact.based': 'Based', 'contact.copy': 'Copy email', 'contact.copied': 'Copied!',
+      'footer': 'Graphic design · Illustration · Video',
+      'modal.close': 'Close ✕', 'modal.prev': '← Previous project', 'modal.next': 'Next project →',
+      'marquee': ['Brand identity', 'Editorial', 'Packaging', 'Illustration', 'Video'],
+      'meta.title': 'Azul Martin — Graphic design & illustration',
+    },
+  };
 
-  const brandGrid = document.getElementById('brand-pages-grid');
-  const totalPages = 50;
-  const imagePath = 'images/villagi';
-  for (let i = 1; i <= totalPages; i++) {
-    const num = String(i).padStart(2, '0');
-    brandGrid.innerHTML += `
-      <div class="brand-page">
-        <img src="${imagePath}/(${i}).jpg" alt="Brand page ${i}" loading="lazy" onerror="this.parentElement.style.background='rgba(255,255,255,0.06)'">
-        <span class="brand-page-num">${num}</span>
-      </div>`;
+  const projects = window.PROJECTS || [];
+
+  let lang = 'es';
+  try {
+    const q = new URLSearchParams(location.search).get('lang');
+    const saved = localStorage.getItem('lang');
+    if (q === 'en' || q === 'es') lang = q; else if (saved === 'en' || saved === 'es') lang = saved;
+  } catch (e) {}
+
+  const t = k => T[lang][k];
+  const catLabel = c => t('cat.' + c);
+  const grid = document.getElementById('grid');
+  const modal = document.getElementById('modal');
+  let cur = 0;
+  const total = 50;
+  let pg = 1;
+  const page = document.getElementById('page'), count = document.getElementById('count'), thumbs = document.getElementById('thumbs');
+
+  function activeFilter() { const c = document.querySelector('.chip.on'); return c ? c.dataset.f : 'all'; }
+
+  function renderGrid() {
+    const f = activeFilter();
+    grid.innerHTML = projects.map((p, i) => {
+      const cover = p.media.find(m => m.type === 'image');
+      const n = p.media.length;
+      return `
+      <article class="card cat-${p.cat}${f !== 'all' && p.cat !== f ? ' hide' : ''}" data-cat="${p.cat}" data-i="${i}" tabindex="0">
+        <div class="card-img${p.cat === 'pixel' ? ' pixelated' : ''}" data-view="${t('work.view')}"><img src="${cover.thumb}" alt="${p.title[lang]}" loading="lazy"></div>
+        <span class="tag">${catLabel(p.cat)}</span>
+        <h3>${p.title[lang]}</h3>
+        <p>${p.desc[lang]}</p>
+        <span class="count">${n} ${t(n === 1 ? 'work.image' : 'work.images')}</span>
+      </article>`;
+    }).join('');
   }
 
+  function renderMarquee() {
+    const items = t('marquee').map(w => `<span>${w}</span><span class="star">✦</span>`).join('');
+    document.getElementById('marquee').innerHTML = items + items;
+  }
 
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
+  let mi = 0;
+  const stage = document.getElementById('stage'), strip = document.getElementById('strip'), imgCount = document.getElementById('img-count');
+  function showMedia(k) {
+    const media = projects[cur].media;
+    mi = (k + media.length) % media.length;
+    const m = media[mi];
+    stage.querySelectorAll('img.main, video.main').forEach(el => { if (el.pause) el.pause(); el.remove(); });
+    let el;
+    if (m.type === 'video') {
+      el = document.createElement('video');
+      el.src = m.src; el.poster = m.poster; el.controls = true; el.playsInline = true; el.preload = 'metadata';
+    } else {
+      el = document.createElement('img');
+      el.src = m.src; el.alt = projects[cur].title[lang] + ' — ' + (mi + 1);
+      if (projects[cur].cat === 'pixel') el.classList.add('pixelated');
+    }
+    el.className += ' main';
+    stage.prepend(el);
+    imgCount.textContent = (mi + 1) + ' / ' + media.length;
+    const many = media.length > 1;
+    document.getElementById('img-prev').style.display = many ? '' : 'none';
+    document.getElementById('img-next').style.display = many ? '' : 'none';
+    imgCount.style.display = many ? '' : 'none';
+    strip.style.display = many ? '' : 'none';
+    strip.querySelectorAll('button').forEach((b, j) => b.classList.toggle('on', j === mi));
+    const on = strip.querySelector('.on');
+    if (on) strip.scrollTo({ left: on.offsetLeft - strip.clientWidth / 2 + on.clientWidth / 2, behavior: 'smooth' });
+    const next = media[(mi + 1) % media.length];
+    if (next && next.type === 'image') { const pre = new Image(); pre.src = next.src; }
+  }
+  function openP(i, keepIndex) {
+    cur = (i + projects.length) % projects.length; const p = projects[cur];
+    const tg = document.getElementById('m-tag'); tg.textContent = catLabel(p.cat); tg.className = 'tag cat-' + p.cat;
+    document.getElementById('m-title').textContent = p.title[lang];
+    document.getElementById('m-desc').textContent = p.desc[lang];
+    document.getElementById('m-links').innerHTML = (p.links || []).map(l => `<a class="btn ghost" href="${l.href}" target="_blank" rel="noopener">${l.label[lang]}</a>`).join('');
+    strip.innerHTML = p.media.map((m, j) => `<button type="button" data-j="${j}" aria-label="${j + 1}">${m.type === 'video' ? `<img src="${m.poster}" alt=""><span class="play">▶</span>` : `<img src="${m.thumb}" alt="" loading="lazy"${p.cat === 'pixel' ? ' class="pixelated"' : ''}>`}</button>`).join('');
+    showMedia(keepIndex ? mi : 0);
+    modal.classList.add('open');
+    document.body.classList.add('locked');
+  }
+  strip.addEventListener('click', e => { const b = e.target.closest('button'); if (b) showMedia(+b.dataset.j); });
+  document.getElementById('img-prev').onclick = () => showMedia(mi - 1);
+  document.getElementById('img-next').onclick = () => showMedia(mi + 1);
+  const closeModal = () => { modal.classList.remove('open'); document.body.classList.remove('locked'); stage.querySelectorAll('video').forEach(v => v.pause()); };
+
+  function show(n) {
+    pg = ((n - 1 + total) % total) + 1;
+    page.src = `images/villagi/(${pg}).jpg`; page.alt = t('brand.page') + ' ' + pg;
+    count.textContent = String(pg).padStart(2, '0') + ' / ' + total;
+    thumbs.querySelectorAll('img').forEach(im => im.classList.toggle('on', +im.dataset.p === pg));
+  }
+  function showAndScroll(n) {
+    show(n);
+    const on = thumbs.querySelector('.on');
+    if (on) thumbs.scrollTo({ left: on.offsetLeft - thumbs.clientWidth / 2 + on.clientWidth / 2, behavior: 'smooth' });
+  }
+
+  function applyLang(l) {
+    lang = l;
+    try { localStorage.setItem('lang', l); } catch (e) {}
+    document.documentElement.lang = l;
+    document.title = t('meta.title');
+    document.querySelectorAll('[data-i18n]').forEach(el => { const v = t(el.dataset.i18n); if (v) el.textContent = v; });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => { const v = t(el.dataset.i18nHtml); if (v) el.innerHTML = v; });
+    document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.lang === l));
+    renderGrid(); renderMarquee(); show(pg);
+    if (modal.classList.contains('open')) openP(cur, true);
+  }
+
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+
+  document.getElementById('filters').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    document.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b));
+    const f = b.dataset.f;
+    document.querySelectorAll('.card').forEach(c => c.classList.toggle('hide', f !== 'all' && c.dataset.cat !== f));
   });
-  (function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  })();
 
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  document.getElementById('copy-email-btn').addEventListener('click', function() {
-    const email = 'azulmartin935@gmail.com';
-    navigator.clipboard.writeText(email).then(function() {
-      const textSpan = document.getElementById('copy-email-text');
-      const original = textSpan.textContent;
-      textSpan.textContent = 'Copied!';
-      setTimeout(() => { textSpan.textContent = original; }, 1500);
-    });
+  grid.addEventListener('click', e => { const c = e.target.closest('.card'); if (c) openP(+c.dataset.i); });
+  grid.addEventListener('keydown', e => { const c = e.target.closest('.card'); if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openP(+c.dataset.i); } });
+  document.getElementById('m-prev').onclick = () => openP(cur - 1);
+  document.getElementById('m-next').onclick = () => openP(cur + 1);
+  document.getElementById('modal-close').onclick = closeModal;
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowRight') showMedia(mi + 1);
+    if (e.key === 'ArrowLeft') showMedia(mi - 1);
   });
+
+  thumbs.innerHTML = Array.from({ length: total }, (_, i) => `<img src="images/villagi/(${i + 1}).jpg" alt="${i + 1}" loading="lazy" data-p="${i + 1}">`).join('');
+  document.getElementById('prev').onclick = () => showAndScroll(pg - 1);
+  document.getElementById('next').onclick = () => showAndScroll(pg + 1);
+  thumbs.addEventListener('click', e => { if (e.target.dataset.p) showAndScroll(+e.target.dataset.p); });
+
+  const wallet = document.getElementById('wallet');
+  document.getElementById('parts').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    document.querySelectorAll('#parts button').forEach(x => x.classList.toggle('on', x === b));
+    const n = b.dataset.part;
+    wallet.pause(); wallet.poster = `videos/pixel-wallet-${n}.jpg`; wallet.src = `videos/pixel-wallet-${n}.mp4`;
+  });
+
+  document.getElementById('copy-email').addEventListener('click', function () {
+    const btn = this;
+    const done = () => { btn.textContent = t('contact.copied'); setTimeout(() => { btn.textContent = t('contact.copy'); }, 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText('azulmartin935@gmail.com').then(done, () => { location.href = 'mailto:azulmartin935@gmail.com'; });
+    else location.href = 'mailto:azulmartin935@gmail.com';
+  });
+
+  const links = document.getElementById('nav-links');
+  document.getElementById('menu-btn').onclick = () => links.classList.toggle('open');
+  links.addEventListener('click', e => { if (e.target.tagName === 'A') links.classList.remove('open'); });
+
+  applyLang(lang);
 </script>
 </body>
 </html>
